@@ -7,9 +7,12 @@ namespace PresenationDemo
 {
 	public partial class Login : ContentPage
 	{
+		LoginViewModel _LoginViewModel = new LoginViewModel ();
+
 		public Login ()
 		{
-			InitializeComponent ();
+			InitializeComponent (); 
+			BindingContext = _LoginViewModel;
 		}
 
 		async void OnButtonClicked (object sender, EventArgs args)
