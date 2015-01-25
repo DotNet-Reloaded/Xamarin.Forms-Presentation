@@ -7,9 +7,10 @@ namespace PresenationDemo
 {
 	public partial class Monkeys : ContentPage
 	{
-		public Monkeys ()
+		public Monkeys (INavigationService navigation)
 		{
 			InitializeComponent ();
+			BindingContext = new LoginViewModel (navigation);
 		}
 	}
 }

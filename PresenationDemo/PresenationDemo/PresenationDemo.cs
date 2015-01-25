@@ -8,7 +8,12 @@ namespace PresenationDemo
 	{
 		public App ()
 		{
-			MainPage = new NavigationPage (new Login ());
+			var navigation = new NavigationService ();
+
+			MainPage = new NavigationPage (new Login (navigation));
+
+			navigation.Navigation = MainPage.Navigation;
+			navigation.CurrentPage = MainPage;
 		}
 
 		protected override void OnStart ()

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace PresenationDemo
 {
@@ -35,13 +37,20 @@ namespace PresenationDemo
 			}
 		}
 
-		public ICommand DoLogin { get; set; }
-
 		#endregion
 
-		public LoginViewModel ()
+		public LoginViewModel (INavigationService navigation) : base (navigation)
 		{
-			DoLogin = new DelegateCommand (CanLogin, OnLogin);
+		}
+
+		public ICommand DoLogin { 
+			get {
+				return new DelegateCommand (CanLogin, async t => {
+					await _Navigation.DisplayAlert ("Login", "You succesfully logged in", "Enter Monkey Island");
+					await _Navigation.PushAsync (new Monkeys (_Navigation));
+				});
+//				return new DelegateCommand (CanLogin, OnLogin);
+			}
 		}
 
 		public bool CanLogin (object obj)
@@ -49,12 +58,11 @@ namespace PresenationDemo
 			return true;
 		}
 
-		public void OnLogin (object obj)
-		{
-			if (CanLogin (null)) {
-				return;
-			}
-		}
+		//		public void OnLogin (object obj)
+		//		{
+		//			_Navigation.DisplayAlert ("Login", "You succesfully logged in", "Enter Monkey Island");
+		//			_Navigation.PushAsync (new Monkeys (_Navigation));
+		//		}
 	}
 }
 
