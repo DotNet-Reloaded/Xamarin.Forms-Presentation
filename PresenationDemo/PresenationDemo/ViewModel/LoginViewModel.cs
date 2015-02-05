@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
-using Xamarin.Forms;
-using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace PresenationDemo
 {
@@ -11,7 +12,6 @@ namespace PresenationDemo
 
 		string _username;
 		string _password;
-		Guid _token;
 
 		public string Username {
 			get { return _username; }
@@ -29,14 +29,6 @@ namespace PresenationDemo
 			}
 		}
 
-		public Guid Token { 
-			get { return _token; }
-			set {
-				_token = value; 
-				OnPropertyChanged ("token");
-			}
-		}
-
 		#endregion
 
 		public LoginViewModel (INavigationService navigation) : base (navigation)
@@ -46,10 +38,24 @@ namespace PresenationDemo
 		public ICommand DoLogin { 
 			get {
 				return new DelegateCommand (CanLogin, async t => {
-					await _Navigation.DisplayAlert ("Login", "You succesfully logged in", "Enter Monkey Island");
-					await _Navigation.PushAsync (new Monkeys (_Navigation));
+					using (var client = new HttpClient ()) {
+						client.BaseAddress = new Uri ("http://widgetservice.azurewebsites.net/api/");
+
+						var str = JsonConvert.SerializeObject (new { username = _username, password = _password });
+						var content = new StringContent (str, Encoding.UTF8, "application/json");
+
+						var response = await client.PostAsync ("Auth/", content);
+						if (response.IsSuccessStatusCode) {
+							var token = await response.Content.ReadAsStringAsync ();
+							var success = string.Format ("You succesfully logged in!!{0}Auth Token:{1}{2}", Environment.NewLine, Environment.NewLine, token);
+							await _Navigation.DisplayAlert ("Login", success, "Enter Widget World");
+							await _Navigation.PushAsync (new Monkeys (_Navigation));
+							return;
+						}
+					}
+
+					await _Navigation.DisplayAlert ("Login Failed", "Please Verify your username and password", "Try Again");
 				});
-//				return new DelegateCommand (CanLogin, OnLogin);
 			}
 		}
 
