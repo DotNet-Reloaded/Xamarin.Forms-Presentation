@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace PresenationDemo
 {
@@ -9,7 +12,6 @@ namespace PresenationDemo
 
 		string _username;
 		string _password;
-		Guid _token;
 
 		public string Username {
 			get { return _username; }
@@ -27,21 +29,35 @@ namespace PresenationDemo
 			}
 		}
 
-		public Guid Token { 
-			get { return _token; }
-			set {
-				_token = value; 
-				OnPropertyChanged ("token");
-			}
-		}
-
-		public ICommand DoLogin { get; set; }
-
 		#endregion
 
-		public LoginViewModel ()
+		public LoginViewModel (INavigationService navigation) : base (navigation)
 		{
-			DoLogin = new DelegateCommand (CanLogin, OnLogin);
+		}
+
+		public ICommand DoLogin { 
+			get {
+				return new DelegateCommand (CanLogin, async t => {
+					using (var client = new HttpClient ()) {
+						client.BaseAddress = App.WidgetService;
+
+						var str = JsonConvert.SerializeObject (new { username = _username, password = _password });
+						var content = new StringContent (str, Encoding.UTF8, "application/json");
+
+						var response = await client.PostAsync ("Auth/", content);
+						if (response.IsSuccessStatusCode) {
+							var token = await response.Content.ReadAsStringAsync ();
+							App.TokenBag = JsonConvert.DeserializeObject<TokenBag> (token);
+							var success = string.Format ("You succesfully logged in!!{0}Auth Token:{1}{2}", Environment.NewLine, Environment.NewLine, token);
+							await _Navigation.DisplayAlert ("Login", success, "Enter Widget World");
+							await _Navigation.PushAsync (new Widgets (_Navigation));
+							return;
+						}
+					}
+
+					await _Navigation.DisplayAlert ("Login Failed", "Please Verify your username and password", "Try Again");
+				});
+			}
 		}
 
 		public bool CanLogin (object obj)
@@ -49,12 +65,11 @@ namespace PresenationDemo
 			return true;
 		}
 
-		public void OnLogin (object obj)
-		{
-			if (CanLogin (null)) {
-				return;
-			}
-		}
+		//		public void OnLogin (object obj)
+		//		{
+		//			_Navigation.DisplayAlert ("Login", "You succesfully logged in", "Enter Monkey Island");
+		//			_Navigation.PushAsync (new Monkeys (_Navigation));
+		//		}
 	}
 }
 

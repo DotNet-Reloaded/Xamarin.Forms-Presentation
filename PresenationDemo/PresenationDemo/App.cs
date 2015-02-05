@@ -6,9 +6,22 @@ namespace PresenationDemo
 {
 	public class App : Application
 	{
+		public static Uri WidgetService {
+			get {
+				return new Uri ("http://widgetservice.azurewebsites.net/api/");
+			}
+		}
+
+		public static TokenBag TokenBag { get; set; }
+
 		public App ()
 		{
-			MainPage = new NavigationPage (new Login ());
+			var navigation = new NavigationService ();
+
+			MainPage = new NavigationPage (new Login (navigation));
+
+			navigation.Navigation = MainPage.Navigation;
+			navigation.CurrentPage = MainPage;
 		}
 
 		protected override void OnStart ()
