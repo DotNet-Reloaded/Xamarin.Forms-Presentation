@@ -10,7 +10,12 @@ namespace PresenationDemo
 		public Widgets (INavigationService navigation)
 		{
 			InitializeComponent ();
-			BindingContext = new LoginViewModel (navigation);
+			BindingContext = new WidgetsViewModel (navigation);
+
+			ToolbarItems.Add (new ToolbarItem () {
+				Text = "Get Widgets",
+				Command = ((WidgetsViewModel)BindingContext).GetWidgets
+			});
 		}
 	}
 }
