@@ -37,22 +37,22 @@
     <Compile Include="Login.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Monkeys.xaml.cs">
-      <DependentUpon>Monkeys.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\NavigationService.cs" />
     <Compile Include="ViewModel\INavigationService.cs" />
-    <Compile Include="ViewModel\MonkeysViewModel.cs" />
+    <Compile Include="ViewModel\WidgetsViewModel.cs" />
+    <Compile Include="Widgets.xaml.cs">
+      <DependentUpon>Widgets.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="Login.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Monkeys.xaml">
+    <EmbeddedResource Include="Widgets.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

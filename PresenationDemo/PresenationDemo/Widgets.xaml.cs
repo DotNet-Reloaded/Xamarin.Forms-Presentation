@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace PresenationDemo
 {
-	public partial class Monkeys : ContentPage
+	public partial class Widgets : ContentPage
 	{
-		public Monkeys (INavigationService navigation)
+		public Widgets (INavigationService navigation)
 		{
 			InitializeComponent ();
 			BindingContext = new LoginViewModel (navigation);

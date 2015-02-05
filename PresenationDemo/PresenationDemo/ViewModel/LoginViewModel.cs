@@ -49,7 +49,7 @@ namespace PresenationDemo
 							var token = await response.Content.ReadAsStringAsync ();
 							var success = string.Format ("You succesfully logged in!!{0}Auth Token:{1}{2}", Environment.NewLine, Environment.NewLine, token);
 							await _Navigation.DisplayAlert ("Login", success, "Enter Widget World");
-							await _Navigation.PushAsync (new Monkeys (_Navigation));
+							await _Navigation.PushAsync (new Widgets (_Navigation));
 							return;
 						}
 					}
