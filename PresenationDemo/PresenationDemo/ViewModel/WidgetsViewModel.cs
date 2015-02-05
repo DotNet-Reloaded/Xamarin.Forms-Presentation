@@ -4,14 +4,15 @@ using System.Windows.Input;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace PresenationDemo
 {
 	public class WidgetsViewModel : BaseViewModel
 	{
-		List<Widget> _widgetList;
+		ObservableCollection<Widget> _widgetList = new ObservableCollection<Widget> ();
 
-		public List<Widget> WidgetList {
+		public ObservableCollection<Widget> WidgetList {
 			get { return _widgetList; }
 			set {
 				_widgetList = value; 
@@ -25,25 +26,30 @@ namespace PresenationDemo
 
 		public ICommand GetWidgets { 
 			get {
-				return new DelegateCommand (CanLogin, async t => {
+				return new DelegateCommand (CanGetWidgets, async t => {
 					using (var client = new HttpClient ()) {
 						client.BaseAddress = App.WidgetService;
 						client.DefaultRequestHeaders.Add ("Auth", App.TokenBag.Token.ToString ());
 						var response = await client.PostAsync ("Widget/", null);
 						if (response.IsSuccessStatusCode) {
 							var content = await response.Content.ReadAsStringAsync ();
-							WidgetList = JsonConvert.DeserializeObject<List<Widget>> (content);
+
+							WidgetList.Clear ();
+
+							var lst = JsonConvert.DeserializeObject<ObservableCollection<Widget>> (content);
+							foreach (var item in lst) {
+								WidgetList.Add (item);
+							}
+							await _Navigation.DisplayAlert ("Widgets", "success", "Widget World");
 						}
 					}
 				});
 			}
 		}
 
-		public bool CanLogin (object obj)
+		public bool CanGetWidgets (object obj)
 		{
 			return true;
 		}
-
 	}
 }
-

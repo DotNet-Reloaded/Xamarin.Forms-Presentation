@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PresenationDemo.Widgets">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Widget World" x:Class="PresenationDemo.Widgets">
 	<ContentPage.Content>
-		<StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-			<Label Text="Widget 1" />
-			<Label Text="Widget 2" />
-			<Label Text="Widget 3" />
-			<Label Text="Widget 4" />
-			<Label Text="Widget 5" />
-			<Label Text="Widget 6" />
-		</StackLayout>
+		<ListView ItemsSource="{Binding WidgetList}">
+		</ListView>
 	</ContentPage.Content>
 </ContentPage>
