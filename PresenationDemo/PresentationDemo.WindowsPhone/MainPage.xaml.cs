@@ -8,6 +8,9 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using PresentationDemo.WindowsPhone.Resources;
+using PresenationDemo;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace PresentationDemo.WindowsPhone
 {
@@ -17,9 +20,9 @@ namespace PresentationDemo.WindowsPhone
         public MainPage()
         {
             InitializeComponent();
-
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            Forms.Init ( );
+            Content = PresenationDemo.App.GetMainPage ( ).ConvertPageToUIElement(this);
+            
         }
 
         // Sample code for building a localized ApplicationBar

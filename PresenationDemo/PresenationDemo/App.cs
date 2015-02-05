@@ -25,6 +25,11 @@ namespace PresenationDemo
 		{
 			// Handle when your app resumes
 		}
+
+        public static ContentPage GetMainPage()
+        {
+            return new Login();
+        }
 	}
 }
 
