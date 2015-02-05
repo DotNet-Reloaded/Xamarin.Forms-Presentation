@@ -6,6 +6,14 @@ namespace PresenationDemo
 {
 	public class App : Application
 	{
+		public static Uri WidgetService {
+			get {
+				return new Uri ("http://widgetservice.azurewebsites.net/api/");
+			}
+		}
+
+		public static TokenBag TokenBag { get; set; }
+
 		public App ()
 		{
 			var navigation = new NavigationService ();

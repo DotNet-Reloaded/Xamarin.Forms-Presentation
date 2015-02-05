@@ -39,7 +39,7 @@ namespace PresenationDemo
 			get {
 				return new DelegateCommand (CanLogin, async t => {
 					using (var client = new HttpClient ()) {
-						client.BaseAddress = new Uri ("http://widgetservice.azurewebsites.net/api/");
+						client.BaseAddress = App.WidgetService;
 
 						var str = JsonConvert.SerializeObject (new { username = _username, password = _password });
 						var content = new StringContent (str, Encoding.UTF8, "application/json");
@@ -47,6 +47,7 @@ namespace PresenationDemo
 						var response = await client.PostAsync ("Auth/", content);
 						if (response.IsSuccessStatusCode) {
 							var token = await response.Content.ReadAsStringAsync ();
+							App.TokenBag = JsonConvert.DeserializeObject<TokenBag> (token);
 							var success = string.Format ("You succesfully logged in!!{0}Auth Token:{1}{2}", Environment.NewLine, Environment.NewLine, token);
 							await _Navigation.DisplayAlert ("Login", success, "Enter Widget World");
 							await _Navigation.PushAsync (new Widgets (_Navigation));
