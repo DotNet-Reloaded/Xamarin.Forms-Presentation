@@ -29,12 +29,12 @@
 								
 								<Grid Grid.Row="0" Grid.Column="0">
 									<StackLayout Orientation="Vertical">
-										<Label Text="{Binding Name}" />
-										<Label Text="{Binding Description}" />
+										<Label Text="{Binding Name}" FontSize="20" FontAttributes="Bold" />
+										<Label Text="{Binding Description}" FontSize="12" />
 									</StackLayout>
 								</Grid>
-								<Grid Grid.Column="1">
-									<Label Text="{Binding Code}" />
+								<Grid Grid.RowSpan="2" Grid.Column="1">
+									<Label Text="{Binding Code}" XAlign="End" YAlign="Center" Font="32" FontAttributes="Italic" />
 								</Grid>
 							</Grid>
 						</ViewCell.View>
