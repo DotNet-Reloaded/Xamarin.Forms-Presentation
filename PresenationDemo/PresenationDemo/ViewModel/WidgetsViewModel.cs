@@ -50,7 +50,6 @@ namespace PresenationDemo
 								WidgetList.Add (item);
 							}
 							IsLoading = false;
-							await _Navigation.DisplayAlert ("Widgets", "success", "Widget World");
 						}
 					}
 				});
