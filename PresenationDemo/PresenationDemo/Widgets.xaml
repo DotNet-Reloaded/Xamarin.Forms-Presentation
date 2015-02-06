@@ -9,7 +9,7 @@
 	                  x:TypeArguments="x:Int32"
 	                  iOS="20"
 	                  Android="20"
-	                  WinPhone="25" />
+	                  WinPhone="50" />
 	    </ResourceDictionary>
   	</ContentPage.Resources>	
   	<ContentPage.Content>
