@@ -11,17 +11,19 @@ using PresentationDemo.WindowsPhone.Resources;
 using PresenationDemo;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Platform.WinPhone;
 
 namespace PresentationDemo.WindowsPhone
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class MainPage : global::Xamarin.Forms.Platform.WinPhone.FormsApplicationPage
     {
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            Forms.Init ( );
-            Content = PresenationDemo.App.GetMainPage ( ).ConvertPageToUIElement(this);
+            SupportedOrientations = SupportedPageOrientation.PortraitOrLandscape;
+            global::Xamarin.Forms.Forms.Init ( );
+            LoadApplication ( new PresenationDemo.App() );
             
         }
 
