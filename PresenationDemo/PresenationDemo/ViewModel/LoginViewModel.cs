@@ -48,7 +48,6 @@ namespace PresenationDemo
 			get {
 				return new DelegateCommand (CanLogin, async t => {
 					IsNotLoggingIn = false;
-					await System.Threading.Tasks.Task.Delay (1000);
 					using (var client = new HttpClient ()) {
 						client.BaseAddress = App.WidgetService;
 
