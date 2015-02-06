@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Widget World" x:Class="PresenationDemo.Widgets">
+	<ContentPage.Resources>
+	    <ResourceDictionary>
+	      <!-- This is only an issue on the iPhone; Android and 
+	           WinPhone auto size the row height to the contents. -->
+	      <OnPlatform x:Key="rowHeight" 
+	                  x:TypeArguments="x:Int32"
+	                  iOS="70"
+	                  Android="70"
+	                  WinPhone="50" />
+	    </ResourceDictionary>
+  	</ContentPage.Resources>	
+  	<ContentPage.Content>
+		<ListView ItemsSource="{Binding WidgetList}" RowHeight="{StaticResource rowHeight}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+							<Grid Padding="10,10,10,10">
+								<Grid.RowDefinitions>
+							      <RowDefinition Height="Auto" />
+							    </Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+							      <ColumnDefinition Width="Auto" />
+							      <ColumnDefinition Width="*" />
+							    </Grid.ColumnDefinitions>
+								
+								<Grid Grid.Row="0" Grid.Column="0">
+									<StackLayout Orientation="Vertical">
+										<Label Text="{Binding Name}" />
+										<Label Text="{Binding Description}" />
+									</StackLayout>
+								</Grid>
+								<Grid Grid.Column="1">
+									<Label Text="{Binding Code}" />
+								</Grid>
+							</Grid>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+</ContentPage>
+
