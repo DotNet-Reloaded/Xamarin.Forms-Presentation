@@ -10,22 +10,31 @@ namespace PresenationDemo
 	{
 		#region Properties
 
-		string _username;
-		string _password;
+		string _Username;
+		string _Password;
+		bool _IsNotLoggingIn = true;
 
 		public string Username {
-			get { return _username; }
+			get { return _Username; }
 			set {
-				_username = value; 
-				OnPropertyChanged ("username");
+				_Username = value; 
+				OnPropertyChanged ("Username");
 			}
 		}
 
 		public string Password { 
-			get { return _password; }
+			get { return _Password; }
 			set {
-				_password = value; 
-				OnPropertyChanged ("password");
+				_Password = value; 
+				OnPropertyChanged ("Password");
+			}
+		}
+
+		public bool IsNotLoggingIn {
+			get{ return _IsNotLoggingIn; }
+			set {
+				_IsNotLoggingIn = value;
+				OnPropertyChanged ("IsNotLoggingIn");
 			}
 		}
 
@@ -38,10 +47,12 @@ namespace PresenationDemo
 		public ICommand DoLogin { 
 			get {
 				return new DelegateCommand (CanLogin, async t => {
+					IsNotLoggingIn = false;
+					await System.Threading.Tasks.Task.Delay (1000);
 					using (var client = new HttpClient ()) {
 						client.BaseAddress = App.WidgetService;
 
-						var str = JsonConvert.SerializeObject (new { username = _username, password = _password });
+						var str = JsonConvert.SerializeObject (new { username = _Username, password = _Password });
 						var content = new StringContent (str, Encoding.UTF8, "application/json");
 
 						var response = await client.PostAsync ("Auth/", content);
@@ -51,10 +62,12 @@ namespace PresenationDemo
 							var success = string.Format ("You succesfully logged in!!{0}Auth Token:{1}{2}", Environment.NewLine, Environment.NewLine, token);
 							await _Navigation.DisplayAlert ("Login", success, "Enter Widget World");
 							await _Navigation.PushAsync (new Widgets (_Navigation));
+							IsNotLoggingIn = true;
 							return;
 						}
 					}
 
+					IsNotLoggingIn = true;
 					await _Navigation.DisplayAlert ("Login Failed", "Please Verify your username and password", "Try Again");
 				});
 			}
