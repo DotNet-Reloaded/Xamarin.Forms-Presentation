@@ -14,10 +14,6 @@ namespace PresenationDemo
 			_Navigation = navigation;
 		}
 
-		//		public ICommand GoToLoginPageCommand {
-		//			get { return new DelegateCommand (() => _Navigation.PushAsync (App.LoginPage)); }
-		//		}
-
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
